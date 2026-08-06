@@ -302,17 +302,13 @@ async def upload_body_image(
                 details={"response": response, "missing_field": field},
             )
 
-    # Build multipart form data with S3 required fields
-    # Order matters for S3 - policy fields first, then file
+    # Forward every field exactly as returned by note.com's presigned POST API.
+    # Optional fields such as x-amz-security-token are part of the signature and
+    # must not be dropped. Likewise, fields absent from the response must not be
+    # invented with empty values because that can violate the S3 POST policy.
+    # Keep the file last, as required by S3.
     files_data: dict[str, tuple[None, str] | tuple[str, bytes, str]] = {
-        "key": (None, str(post_fields["key"])),
-        "acl": (None, str(post_fields.get("acl", ""))),
-        "Expires": (None, str(post_fields.get("Expires", ""))),
-        "policy": (None, str(post_fields["policy"])),
-        "x-amz-credential": (None, str(post_fields["x-amz-credential"])),
-        "x-amz-algorithm": (None, str(post_fields["x-amz-algorithm"])),
-        "x-amz-date": (None, str(post_fields["x-amz-date"])),
-        "x-amz-signature": (None, str(post_fields["x-amz-signature"])),
+        field_name: (None, str(field_value)) for field_name, field_value in post_fields.items()
     }
 
     # Determine content type

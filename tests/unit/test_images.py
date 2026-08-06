@@ -331,7 +331,7 @@ class TestUploadBodyImage:
 
     @pytest.mark.asyncio
     async def test_upload_body_image_uploads_to_s3(self, tmp_path: Path) -> None:
-        """Test that file is uploaded to S3 using presigned URL."""
+        """Test that every presigned field is forwarded unchanged to S3."""
         session = create_mock_session()
         file_path = tmp_path / "test.png"
         file_path.write_bytes(b"\x89PNG" + b"x" * 100)
@@ -342,13 +342,13 @@ class TestUploadBodyImage:
                 "url": "https://assets.note.com/images/img_789012.png",
                 "post": {
                     "key": "img_789012",
-                    "acl": "public-read",
-                    "Expires": "2024-12-31T23:59:59Z",
                     "policy": "base64policy",
                     "x-amz-credential": "AKIAIOSFODNN7EXAMPLE",
                     "x-amz-algorithm": "AWS4-HMAC-SHA256",
                     "x-amz-date": "20241220T000000Z",
+                    "x-amz-security-token": "temporary-session-token",
                     "x-amz-signature": "signature123",
+                    "future-note-field": "future-value",
                 },
             }
         }
@@ -380,8 +380,13 @@ class TestUploadBodyImage:
             s3_call_args = mock_http_client.post.call_args
             s3_url = s3_call_args[0][0]
             assert "s3.amazonaws.com" in s3_url
-            # Verify files parameter is passed
-            assert "files" in s3_call_args[1]
+            uploaded_fields = s3_call_args[1]["files"]
+            assert uploaded_fields["x-amz-security-token"] == (None, "temporary-session-token")
+            assert uploaded_fields["future-note-field"] == (None, "future-value")
+            assert "acl" not in uploaded_fields
+            assert "Expires" not in uploaded_fields
+            assert uploaded_fields["file"] == ("test.png", file_path.read_bytes(), "image/png")
+            assert list(uploaded_fields)[-1] == "file"
 
     @pytest.mark.asyncio
     async def test_upload_body_image_api_error(self, tmp_path: Path) -> None:
