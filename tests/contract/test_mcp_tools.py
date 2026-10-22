@@ -15,7 +15,7 @@ from note_mcp.server import mcp
 
 def get_tools() -> dict[str, Any]:
     """Get all registered tools synchronously."""
-    return asyncio.run(mcp._tool_manager.get_tools())
+    return {tool.name: tool for tool in asyncio.run(mcp.list_tools())}
 
 
 class TestMCPServerConfiguration:
