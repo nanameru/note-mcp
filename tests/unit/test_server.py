@@ -62,7 +62,7 @@ class TestNoteListArticles:
 
             from note_mcp.server import note_list_articles
 
-            fn = note_list_articles.fn
+            fn = note_list_articles
             result = await fn()
 
             # 出力にキーが含まれることを確認
@@ -140,7 +140,7 @@ class TestNoteCreateFromFile:
             from note_mcp.server import note_create_from_file
 
             # Access the underlying function (not the FunctionTool wrapper)
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
 
             # Execute
             result = await fn(str(md_file), upload_images=True)
@@ -201,7 +201,7 @@ class TestNoteCreateFromFile:
             from note_mcp.server import note_create_from_file
 
             # Access the underlying function (not the FunctionTool wrapper)
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
             result = await fn(str(md_file), upload_images=True)
 
             # update_article should NOT be called when no images uploaded
@@ -261,7 +261,7 @@ class TestNoteCreateFromFile:
 
             from note_mcp.server import note_create_from_file
 
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
             result = await fn(str(md_file), upload_images=True)
 
             # upload_eyecatch_imageが呼ばれることを確認
@@ -314,7 +314,7 @@ class TestNoteCreateFromFile:
 
             from note_mcp.server import note_create_from_file
 
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
             result = await fn(str(md_file), upload_images=False)
 
             # upload_eyecatch_imageが呼ばれないことを確認
@@ -364,7 +364,7 @@ class TestNoteCreateFromFile:
 
             from note_mcp.server import note_create_from_file
 
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
             result = await fn(str(md_file), upload_images=True)
 
             # upload_eyecatch_imageが呼ばれないことを確認
@@ -417,7 +417,7 @@ class TestNoteCreateFromFile:
 
             from note_mcp.server import note_create_from_file
 
-            fn = note_create_from_file.fn
+            fn = note_create_from_file
             result = await fn(str(md_file), upload_images=True)
 
             # 記事作成自体は成功
@@ -461,7 +461,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             result = await fn(article_id="123456789", file_path=str(md_file))
 
             # publish_article should be called with tags from file
@@ -504,7 +504,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             # Specify both tags and file_path
             result = await fn(
                 article_id="123456789",
@@ -552,7 +552,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             result = await fn(article_id="123456789", file_path=str(md_file))
 
             # publish_article should be called with empty tags list
@@ -581,7 +581,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             result = await fn(article_id="123456789", file_path=str(non_existent_file))
 
             # publish_article should NOT be called
@@ -622,7 +622,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             # New article creation (no article_id)
             result = await fn(
                 title="New Title",
@@ -662,7 +662,7 @@ class TestNotePublishArticle:
 
             from note_mcp.server import note_publish_article
 
-            fn = note_publish_article.fn
+            fn = note_publish_article
             result = await fn(article_id="123456789", file_path=str(md_file))
 
             # publish_article should NOT be called

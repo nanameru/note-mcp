@@ -690,7 +690,7 @@ class TestNoteGetPreviewHtmlTool:
             ),
         ):
             # Access the underlying function (not the FunctionTool wrapper)
-            fn = note_get_preview_html.fn
+            fn = note_get_preview_html
             result = await fn("n1234567890ab")
             assert result == mock_html
 
@@ -700,7 +700,7 @@ class TestNoteGetPreviewHtmlTool:
         from note_mcp.server import note_get_preview_html
 
         with patch("note_mcp.decorators._session_manager.load", return_value=None):
-            fn = note_get_preview_html.fn
+            fn = note_get_preview_html
             result = await fn("n1234567890ab")
             assert "ログイン" in result
 
@@ -721,7 +721,7 @@ class TestNoteGetPreviewHtmlTool:
             "note_mcp.decorators._session_manager.load",
             return_value=expired_session,
         ):
-            fn = note_get_preview_html.fn
+            fn = note_get_preview_html
             result = await fn("n1234567890ab")
             assert "ログイン" in result or "セッション" in result
 
@@ -746,6 +746,6 @@ class TestNoteGetPreviewHtmlTool:
                 side_effect=api_error,
             ),
         ):
-            fn = note_get_preview_html.fn
+            fn = note_get_preview_html
             result = await fn("n1234567890ab")
             assert "エラー" in result

@@ -257,7 +257,7 @@ class TestCreateFromFile:
     ) -> None:
         """YAMLフロントマター付きファイルから記事を作成できる。"""
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_frontmatter),
         )
 
@@ -278,7 +278,7 @@ class TestCreateFromFile:
     ) -> None:
         """H1タイトルのみのファイルから記事を作成できる。"""
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_h1_only),
         )
 
@@ -301,7 +301,7 @@ class TestCreateFromFile:
         プレビューページで目次HTMLが正しく生成されることを検証。
         """
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_toc),
         )
 
@@ -325,7 +325,7 @@ class TestCreateFromFile:
     ) -> None:
         """数式付きファイルから記事を作成し、KaTeXレンダリングを検証。"""
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_math),
         )
 
@@ -358,7 +358,7 @@ class TestCreateFromFile:
         プレビューページで画像が正しく表示されることを検証。
         """
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_local_image),
             upload_images=True,
         )
@@ -389,7 +389,7 @@ class TestCreateFromFile:
     ) -> None:
         """upload_images=Falseで画像アップロードをスキップできる。"""
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_local_image),
             upload_images=False,
         )
@@ -415,7 +415,7 @@ class TestCreateFromFile:
         プレビューページで両方が正しく表示されることを検証。
         """
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_toc_and_image),
             upload_images=True,
         )
@@ -455,7 +455,7 @@ class TestCreateFromFile:
         自動でアップロードされることを検証。
         """
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_with_eyecatch),
             upload_images=True,
         )
@@ -479,7 +479,7 @@ class TestCreateFromFileErrors:
     ) -> None:
         """存在しないファイルでエラーメッセージが返される。"""
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path="/nonexistent/path/article.md",
         )
 
@@ -501,7 +501,7 @@ No headings here at all.
         md_file.write_text(content, encoding="utf-8")
 
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_file),
         )
 
@@ -527,7 +527,7 @@ Body content.
         md_file.write_text(content, encoding="utf-8")
 
         # Act
-        result = await note_create_from_file.fn(
+        result = await note_create_from_file(
             file_path=str(md_file),
             upload_images=True,
         )
@@ -568,7 +568,7 @@ Body content.
             md_file.write_text(content, encoding="utf-8")
 
             # Act
-            result = await note_create_from_file.fn(
+            result = await note_create_from_file(
                 file_path=str(md_file),
             )
 

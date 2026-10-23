@@ -229,7 +229,7 @@ class TestNoteShowPreviewToolE2E:
                 new_callable=AsyncMock,
             ) as mock_show_preview,
         ):
-            fn = note_show_preview.fn
+            fn = note_show_preview
             result = await fn(article_key)
 
             assert "プレビュー" in result
@@ -257,7 +257,7 @@ class TestNoteGetPreviewHtmlToolE2E:
                 return_value=mock_html,
             ),
         ):
-            fn = note_get_preview_html.fn
+            fn = note_get_preview_html
             result = await fn(article_key)
 
             assert result == mock_html

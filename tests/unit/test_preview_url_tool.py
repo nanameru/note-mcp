@@ -24,7 +24,7 @@ async def test_tool_returns_direct_preview_url(mock_session: Session) -> None:
             return_value="https://note.com/preview/n1234567890ab?prev_access_key=preview-token",
         ) as build_url,
     ):
-        result = await note_get_preview_url.fn("n1234567890ab")
+        result = await note_get_preview_url("n1234567890ab")
 
     assert result == "https://note.com/preview/n1234567890ab?prev_access_key=preview-token"
     get_token.assert_awaited_once_with(mock_session, "n1234567890ab")
@@ -37,6 +37,6 @@ async def test_tool_requires_an_authenticated_session() -> None:
     from note_mcp.server import note_get_preview_url
 
     with patch("note_mcp.decorators._session_manager.load", return_value=None):
-        result = await note_get_preview_url.fn("n1234567890ab")
+        result = await note_get_preview_url("n1234567890ab")
 
     assert "ログイン" in result
