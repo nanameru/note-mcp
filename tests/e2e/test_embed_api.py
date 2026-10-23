@@ -57,7 +57,7 @@ class TestEmbedUrlApiConversion:
 The video should appear above."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] YouTube Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -98,7 +98,7 @@ The video should appear above."""
 The tweet should appear above."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] Twitter Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -137,7 +137,7 @@ The tweet should appear above."""
 The post should appear above."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] X Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -176,7 +176,7 @@ The post should appear above."""
 The article card should appear above."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] Note Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -219,7 +219,7 @@ Some text between embeds.
 Both should appear as embed cards."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] Multiple Embeds via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -255,7 +255,7 @@ Both should appear as embed cards."""
         body = f"""Check out this video: {youtube_url} which is great."""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] Embed in Paragraph",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -294,7 +294,7 @@ Both should appear as embed cards."""
         body = f"""Here's a link: [Watch this video]({youtube_url})"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] Embed as Link",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -336,7 +336,7 @@ class TestEmbedPreviewRendering:
 """
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] YouTube Embed Preview",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -382,7 +382,7 @@ class TestMoneyEmbedApiConversion:
 上記にnote社の株価チャートが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] noteマネー Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -423,7 +423,7 @@ class TestMoneyEmbedApiConversion:
 上記に日経平均の株価チャートが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] noteマネー Index Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -462,7 +462,7 @@ class TestMoneyEmbedApiConversion:
 上記に投資信託のチャートが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] noteマネー Investment Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -505,7 +505,7 @@ class TestStockNotationEmbedApiConversion:
 上記にnote社の株価チャートが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] 日本株記法 Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -546,7 +546,7 @@ $GOOG
 上記にGoogleの株価チャートが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] 米国株記法 Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -590,7 +590,7 @@ $GOOG
 どちらも株価チャートとして表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] 複合株価記法 Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -632,7 +632,7 @@ $GOOG
 上記はコードブロック内なので変換されません。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] コードブロック内株価記法",
             body=body,
             tags=["e2e-test", "embed-api"],
@@ -678,7 +678,7 @@ class TestConnpassEmbedApiConversion:
 上記にconnpassイベントカードが表示されます。"""
 
         # Act
-        result = await note_create_draft.fn(
+        result = await note_create_draft(
             title="[E2E-TEST] connpass Embed via API",
             body=body,
             tags=["e2e-test", "embed-api"],

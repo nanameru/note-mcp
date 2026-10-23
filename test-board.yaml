@@ -1,0 +1,29 @@
+version: 1
+project:
+  name: note-mcp
+  repo: nanameru/note-mcp
+  test_command: uv run --locked pytest tests/unit tests/integration tests/contract tests/security -m "not requires_auth"
+source_roots: [src, tests/security]
+cases:
+  - id: TC-468-SCHEMA
+    title: "悪意のある出力スキーマを実行せず正常なツール応答を保持する"
+    feature: "FastMCP安全性"
+    scenario: "インメモリの無害な実行マーカーと正常応答"
+    status: done
+    priority: high
+    type: regression
+    source: [pyproject.toml, uv.lock]
+    test_file: tests/security/test_tool_output_schema.py
+    issues: []
+    notes: "追跡Issueはnanameru/taiyo-gyomu#468。forkのIssuesが無効のため他repo番号をローカルIssueとして誤登録しない。FastMCP3.4.11で2件成功。"
+  - id: TC-468-COMPAT
+    title: "FastMCP3の公開APIで登録ツールのスキーマを検証する"
+    feature: "MCPツール互換性"
+    scenario: "ツールの存在・引数・説明文・非公開セッション引数の除外"
+    status: done
+    priority: high
+    type: regression
+    source: [src/note_mcp/server.py]
+    test_file: tests/contract/test_mcp_tools.py
+    issues: []
+    notes: "親Issue nanameru/taiyo-gyomu#468。ローカル739件成功、mypy95ファイル、ruff成功。実認証・投稿E2Eは未実行。"

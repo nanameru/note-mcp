@@ -7,6 +7,7 @@ Tests are split into:
 
 from __future__ import annotations
 
+import asyncio
 import os
 import time
 from pathlib import Path
@@ -134,7 +135,7 @@ class TestInvestigatorModeEnvironment:
             from note_mcp.server import mcp
 
             # Count tools - should have base tools only (13)
-            tools = list(mcp._tool_manager._tools.keys())
+            tools = [tool.name for tool in asyncio.run(mcp.list_tools())]
             assert "note_login" in tools
             assert "investigator_start_capture" not in tools
 
@@ -151,7 +152,7 @@ class TestServerIntegration:
         """Test that base note.com tools are always available."""
         from note_mcp.server import mcp
 
-        tools = list(mcp._tool_manager._tools.keys())
+        tools = [tool.name for tool in asyncio.run(mcp.list_tools())]
 
         # Base tools should always be present
         base_tools = [
