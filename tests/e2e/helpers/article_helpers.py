@@ -1,7 +1,7 @@
 """Helper functions for extracting article information from MCP tool results.
 
 Provides utilities for parsing the text output from MCP tools such as
-note_create_from_file.fn() and note_create_draft.fn() to extract article metadata.
+note_create_from_file() and note_create_draft() to extract article metadata.
 """
 
 from __future__ import annotations
@@ -19,8 +19,8 @@ def extract_article_key(result: str) -> str:
     which is needed for preview page navigation.
 
     Args:
-        result: The text result from MCP tools like note_create_draft.fn()
-            or note_create_from_file.fn()
+        result: The text result from MCP tools like note_create_draft()
+            or note_create_from_file()
             Supported formats: "キー: n1234567890ab" or "記事キー: n1234567890ab"
 
     Returns:
@@ -47,8 +47,8 @@ def extract_article_id(result: str) -> str:
     which is the numeric identifier for the article.
 
     Args:
-        result: The text result from MCP tools like note_create_draft.fn()
-            or note_create_from_file.fn()
+        result: The text result from MCP tools like note_create_draft()
+            or note_create_from_file()
             Expected format includes "ID: 123456789" or "記事ID: 123456789"
 
     Returns:

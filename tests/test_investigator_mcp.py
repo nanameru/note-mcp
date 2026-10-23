@@ -131,10 +131,11 @@ class TestInvestigatorModeEnvironment:
 
             # Should be able to import server without error
             # Investigator tools should not be registered
-            from note_mcp.server import mcp
-
             # Count tools - should have base tools only (13)
-            tools = list(mcp._tool_manager._tools.keys())
+            import asyncio
+
+            from note_mcp.server import mcp
+            tools = [tool.name for tool in asyncio.run(mcp.list_tools())]
             assert "note_login" in tools
             assert "investigator_start_capture" not in tools
 
@@ -149,9 +150,10 @@ class TestServerIntegration:
 
     def test_base_tools_always_available(self) -> None:
         """Test that base note.com tools are always available."""
-        from note_mcp.server import mcp
+        import asyncio
 
-        tools = list(mcp._tool_manager._tools.keys())
+        from note_mcp.server import mcp
+        tools = [tool.name for tool in asyncio.run(mcp.list_tools())]
 
         # Base tools should always be present
         base_tools = [

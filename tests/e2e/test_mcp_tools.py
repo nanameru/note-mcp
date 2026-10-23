@@ -6,7 +6,7 @@ Requires valid authentication for most tests.
 Note: These tests import and call the tool functions directly,
 bypassing MCP protocol for E2E testing purposes.
 The @mcp.tool() decorator wraps functions in FunctionTool objects.
-We access the original function via the .fn attribute.
+We access the original function via the  attribute.
 
 Run with: uv run pytest tests/e2e/test_mcp_tools.py -v
 """
@@ -56,7 +56,7 @@ class TestAuthenticationFlow:
         # Arrange: real_session fixture ensures we're authenticated
 
         # Act
-        result = await note_check_auth.fn()
+        result = await note_check_auth()
 
         # Assert
         assert "認証済み" in result
@@ -71,7 +71,7 @@ class TestAuthenticationFlow:
 
         try:
             # Act
-            result = await note_check_auth.fn()
+            result = await note_check_auth()
 
             # Assert
             assert "未認証" in result or "ログイン" in result
@@ -90,14 +90,14 @@ class TestAuthenticationFlow:
         original_username = real_session.username
 
         # Act
-        result = await note_set_username.fn(test_username)
+        result = await note_set_username(test_username)
 
         # Assert
         assert "設定" in result
         assert test_username in result
 
         # Cleanup: Restore original username
-        await note_set_username.fn(original_username)
+        await note_set_username(original_username)
 
     async def test_set_username_invalid(
         self,
@@ -108,7 +108,7 @@ class TestAuthenticationFlow:
         invalid_username = "invalid@user!name"
 
         # Act
-        result = await note_set_username.fn(invalid_username)
+        result = await note_set_username(invalid_username)
 
         # Assert
         assert "無効" in result
@@ -123,7 +123,7 @@ class TestAuthenticationFlow:
         assert session_manager.has_session()
 
         # Act
-        result = await note_logout.fn()
+        result = await note_logout()
 
         # Assert
         assert "ログアウト" in result
@@ -142,7 +142,7 @@ class TestArticleCRUD:
     ) -> None:
         """記事一覧が取得できる."""
         # Act
-        result = await note_list_articles.fn()
+        result = await note_list_articles()
 
         # Assert
         assert "記事" in result or "件" in result or "一覧" in result
@@ -153,7 +153,7 @@ class TestArticleCRUD:
     ) -> None:
         """ステータスでフィルタした記事一覧が取得できる."""
         # Act
-        result = await note_list_articles.fn(status="draft")
+        result = await note_list_articles(status="draft")
 
         # Assert
         # Should either show drafts or indicate no drafts found
@@ -177,7 +177,7 @@ class TestArticleCRUD:
     ) -> None:
         """記事の内容が取得できる."""
         # Act
-        result = await note_get_article.fn(draft_article.key)
+        result = await note_get_article(draft_article.key)
 
         # Assert
         assert draft_article.title in result or "タイトル" in result
@@ -193,7 +193,7 @@ class TestArticleCRUD:
         new_body = "# Updated Content\n\nThis article was updated by E2E test."
 
         # Act
-        result = await note_update_article.fn(
+        result = await note_update_article(
             article_id=draft_article.id,
             title=new_title,
             body=new_body,
@@ -213,7 +213,7 @@ class TestArticleCRUD:
         test_title = f"[E2E-TEST-{int(time.time())}] Lifecycle Test"
         test_body = "# Lifecycle Test\n\nCreated by E2E test."
 
-        create_result = await note_create_draft.fn(
+        create_result = await note_create_draft(
             title=test_title,
             body=test_body,
             tags=["e2e-test", "lifecycle"],
@@ -225,11 +225,11 @@ class TestArticleCRUD:
         assert isinstance(create_result, str)
 
         # Step 2: List to find our article
-        list_result = await note_list_articles.fn(status="draft")
+        list_result = await note_list_articles(status="draft")
         assert test_title in list_result or "E2E-TEST" in list_result
 
         # Step 3: Cleanup (Issue #200)
-        delete_result = await note_delete_draft.fn(article_key=article_key, confirm=True)
+        delete_result = await note_delete_draft(article_key=article_key, confirm=True)
         assert "削除" in delete_result
 
 
@@ -244,7 +244,7 @@ class TestImageAndPreview:
     ) -> None:
         """アイキャッチ画像をアップロードできる."""
         # Act
-        result = await note_upload_eyecatch.fn(
+        result = await note_upload_eyecatch(
             file_path=str(test_image_path),
             note_id=draft_article.id,
         )
@@ -260,7 +260,7 @@ class TestImageAndPreview:
     ) -> None:
         """本文用画像をアップロードできる."""
         # Act
-        result = await note_upload_body_image.fn(
+        result = await note_upload_body_image(
             file_path=str(test_image_path),
             note_id=draft_article.id,
         )
@@ -276,7 +276,7 @@ class TestImageAndPreview:
     ) -> None:
         """本文に画像を挿入できる."""
         # Act
-        result = await note_insert_body_image.fn(
+        result = await note_insert_body_image(
             file_path=str(test_image_path),
             article_id=draft_article.key,
             caption="E2E Test Image",
@@ -292,7 +292,7 @@ class TestImageAndPreview:
     ) -> None:
         """記事のプレビューを表示できる."""
         # Act
-        result = await note_show_preview.fn(
+        result = await note_show_preview(
             article_key=draft_article.key,
         )
 
@@ -306,7 +306,7 @@ class TestImageAndPreview:
     ) -> None:
         """存在しない画像パスでエラーになる."""
         # Act
-        result = await note_upload_eyecatch.fn(
+        result = await note_upload_eyecatch(
             file_path="/nonexistent/path/image.png",
             note_id=draft_article.id,
         )
