@@ -15,7 +15,7 @@ from note_mcp.server import mcp
 
 def get_tools() -> dict[str, Any]:
     """Get all registered tools synchronously."""
-    return asyncio.run(mcp._tool_manager.get_tools())
+    return {tool.name: tool for tool in asyncio.run(mcp.list_tools())}
 
 
 class TestMCPServerConfiguration:
@@ -293,6 +293,21 @@ class TestToolSchemas:
         tools = get_tools()
         assert "note_get_preview_html" in tools
 
+    def test_note_get_preview_url_tool_exists(self) -> None:
+        """Test that note_get_preview_url tool is registered."""
+        tools = get_tools()
+        assert "note_get_preview_url" in tools
+
+    def test_note_get_preview_url_schema(self) -> None:
+        """Test note_get_preview_url tool schema matches exactly."""
+        tools = get_tools()
+        preview_url_tool = tools["note_get_preview_url"]
+
+        assert preview_url_tool.parameters is not None
+        schema = preview_url_tool.parameters
+        assert set(schema.get("properties", {}).keys()) == {"article_key"}
+        assert set(schema.get("required", [])) == {"article_key"}
+
     def test_note_get_preview_html_schema(self) -> None:
         """Test note_get_preview_html tool schema matches exactly."""
         tools = get_tools()
@@ -517,6 +532,7 @@ class TestRequireSessionTools:
         "note_upload_eyecatch",
         "note_upload_body_image",
         "note_show_preview",
+        "note_get_preview_url",
         "note_get_preview_html",
     ]
 

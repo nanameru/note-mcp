@@ -242,6 +242,14 @@ $$
 
 下書き記事のプレビューを表示できます。
 
+**共有用プレビューURLを取得**:
+
+```text
+記事 n1234567890ab のプレビューURLを取得してください
+```
+
+未公開の複製下書きをログインなしで確認できるURLが返されます。URLにはアクセスキーが含まれるため、公開ログやGitには保存しないでください。
+
 **ブラウザでプレビュー表示**:
 
 ```
@@ -295,6 +303,7 @@ https://example.com/interesting-article
 | `note_upload_body_image` | 記事本文用の埋め込み画像をアップロード |
 | `note_insert_body_image` | 記事本文に画像を直接挿入 |
 | `note_show_preview` | ブラウザで記事プレビューを表示（API経由で高速） |
+| `note_get_preview_url` | 未公開記事の共有用プレビューURLを取得 |
 | `note_get_preview_html` | 記事プレビューのHTMLを取得 |
 
 ## Security

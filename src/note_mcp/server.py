@@ -12,10 +12,12 @@ from typing import Annotated
 from fastmcp import FastMCP
 
 from note_mcp.api.articles import (
+    build_preview_url,
     create_draft,
     delete_all_drafts,
     delete_draft,
     get_article,
+    get_preview_access_token,
     list_articles,
     publish_article,
     update_article,
@@ -381,6 +383,26 @@ async def note_show_preview(
     """
     await show_preview(session, article_key)
     return f"プレビューを表示しました。記事キー: {article_key}"
+
+
+@mcp.tool()
+@require_session
+@handle_api_error
+async def note_get_preview_url(
+    session: Session,
+    article_key: Annotated[str, "プレビューURLを取得する記事のキー（例: n1234567890ab）"],
+) -> str:
+    """未公開記事を共有するためのプレビューURLを取得します。
+
+    Args:
+        session: 認証済みnoteセッション
+        article_key: プレビューURLを取得する下書きの記事キー
+
+    Returns:
+        ログインなしで閲覧できるプレビューURL
+    """
+    access_token = await get_preview_access_token(session, article_key)
+    return build_preview_url(article_key, access_token)
 
 
 @mcp.tool()
